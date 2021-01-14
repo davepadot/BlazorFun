@@ -1,0 +1,34 @@
+﻿@page "/survey"
+@page "/survey/{Name}"
+
+<h3>I Am Survey!</h3>
+
+Name:
+<input class="form-control" @bind="@Name" />
+<br />
+@*Color: <input class="form-control" @bind="@Color" /><br/>*@
+Favorite color:
+<select class="form-control" @bind="@Color">
+    <option>Select a color</option>
+    @foreach (var color in Colors)
+    {
+        <option value="@color">@color</option>
+    }
+</select>
+<br />
+<button class="btn btn-primary" @onclick="SaveSurvey">Save</button>
+@Message
+
+@code {
+
+    [Parameter]
+    public string Name { get; set; }
+    public string Color { get; set; }
+    List<string> Colors = new List<string> { "Red", "White", "Blue", "Green" };
+    string Message;
+
+    void SaveSurvey()
+    {
+        Message = $"Survey Saved! Your name is {Name} and your favorite color is {Color}";
+    }
+}
