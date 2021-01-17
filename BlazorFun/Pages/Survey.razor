@@ -1,34 +1,40 @@
 ﻿@page "/survey"
 @page "/survey/{Name}"
 
-<h3>I Am Survey!</h3>
+<h3>My Cool Survey</h3>
 
-Name:
-<input class="form-control" @bind="@Name" />
+<div>Hello @Name!</div>
+
+<div>What is your Name?<br /><input class="form-control" @bind-value="@Name" @bind-value:event="oninput" /></div>
+<div>What is your favorite color?<br /><input class="form-control" @bind-value="@FavoriteColor" /></div>
+
+<div>
+    What is your favorite car?<br />
+    <select class="form-control" @bind="@FavoriteCar">
+        @foreach (var car in Cars)
+        {
+            <option value="@car">@car</option>
+        }
+    </select>
+</div>
 <br />
-@*Color: <input class="form-control" @bind="@Color" /><br/>*@
-Favorite color:
-<select class="form-control" @bind="@Color">
-    <option>Select a color</option>
-    @foreach (var color in Colors)
-    {
-        <option value="@color">@color</option>
-    }
-</select>
-<br />
-<button class="btn btn-primary" @onclick="SaveSurvey">Save</button>
-@Message
+<button @onclick="SubmitSurvey" class="btn btn-primary">Submit Survey</button>
+<h4>@Message</h4>
 
 @code {
 
     [Parameter]
     public string Name { get; set; }
-    public string Color { get; set; }
-    List<string> Colors = new List<string> { "Red", "White", "Blue", "Green" };
-    string Message;
 
-    void SaveSurvey()
+    private string FavoriteColor { get; set; }
+    private string FavoriteCar = string.Empty;
+    private List<string> Cars = new List<string> { "Prius", "Tesla", "Volt" };
+
+    private void SubmitSurvey()
     {
-        Message = $"Survey Saved! Your name is {Name} and your favorite color is {Color}";
+        Message = $"Survey submitted! Your name is {Name} and favorite color is {FavoriteColor}, favorite car is {FavoriteCar}";
     }
+
+    public string Message { get; set; }
+
 }
